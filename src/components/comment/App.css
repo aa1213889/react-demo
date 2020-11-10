@@ -1,0 +1,8 @@
+/* App.css*/
+.list-group-item .handle {
+  float: right;
+}
+
+.hide {
+  display: none;
+}
