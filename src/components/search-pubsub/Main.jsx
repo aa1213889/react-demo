@@ -2,14 +2,10 @@
 /* eslint-disable react/jsx-no-target-blank */
 /**Main.jsx */
 import React from 'react'
-import PropTypes from 'prop-types'
 import axios from 'axios'
+import PubSub from 'pubsub-js'
 
 class Main extends React.Component {
-
-  static propTypes = {
-    searchName: PropTypes.string.isRequired
-  }
 
   state = {
     initView: true,
@@ -18,27 +14,28 @@ class Main extends React.Component {
     errMsg: null
   }
 
-  /**组件收到新的props调用，第一次渲染不会调用 */
-  componentWillReceiveProps (newProps) {
-    const { searchName } = newProps
-    this.setState({
-      initView: false,
-      loading: true,
-    })
-    const url = `https://api.github.com/search/users?q=${searchName}`
-    axios.get(url)
-      .then(res => {
-        const users = res.data.items.map((item, index) => {
-          return {
-            name: item.login,
-            url: item.html_url,
-            avatarUrl: item.avatar_url
-          }
-        })
-        this.setState({ loading: false, users })
-      }).catch(err => {
-        this.setState({ loading: false, errMsg: err.message })
+  componentDidMount () { //在第一次渲染后调用
+    /**2.订阅step1发布消息 */
+    PubSub.subscribe('search', (msg, searchName) => {
+      this.setState({
+        initView: false,
+        loading: true,
       })
+      const url = `https://api.github.com/search/users?q=${searchName}`
+      axios.get(url)
+        .then(res => {
+          const users = res.data.items.map((item, index) => {
+            return {
+              name: item.login,
+              url: item.html_url,
+              avatarUrl: item.avatar_url
+            }
+          })
+          this.setState({ loading: false, users })
+        }).catch(err => {
+          this.setState({ loading: false, errMsg: err.message })
+        })
+    })
   }
 
 

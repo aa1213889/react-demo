@@ -1,11 +1,8 @@
 /**Header.jsx */
 import React from 'react'
-import PropTypes from 'prop-types'
-class Header extends React.Component {
+import PubSub from 'pubsub-js'
 
-  static propTypes = {
-    setSearchName: PropTypes.func.isRequired
-  }
+class Header extends React.Component {
 
   state = {
     text: ''
@@ -18,7 +15,8 @@ class Header extends React.Component {
 
   search = () => {
     const name = this.state.text
-    if (name) this.props.setSearchName(name)
+    /**1.拿到名字后应该发布消息 */
+    if (name) PubSub.publish('search', name)
   }
   render () {
     return (
@@ -35,4 +33,3 @@ class Header extends React.Component {
 }
 
 export default Header
-

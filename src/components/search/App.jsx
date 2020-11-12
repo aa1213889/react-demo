@@ -29,7 +29,7 @@ export default App
 
 /**
  * 需求：
- * 1.根据指定关键字在github上搜索匹配最受关注的库
- * 2.显示库名，点击链接查看库
- * 3.接口：https://api.github.com/search/repositories?q=r&sort=stars
+ * 1.搜索栏 输入github用户名 点击搜索
+ * 2.出现用户头像 名字 和github地址
+ * 3.接口：`https://api.github.com/search/users?q=${用户名}`
  */
