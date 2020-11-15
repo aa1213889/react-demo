@@ -1,35 +1,20 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import './index.css';
-// import App from './components/search-pubsub/App';
-// import reportWebVitals from './reportWebVitals';
-// import 'bootstrap/dist/css/bootstrap.min.css'
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-
-// // If you want to start measuring performance in your app, pass a function
-// // to log results (for example: reportWebVitals(console.log))
-// // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
-
-
-import React from 'react'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import store from './redux/store'
+import App from './components/redux/App';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { render } from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
-import './index.css'
-import App from './components/router/components/app'
 
-render(
-  (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  ),
-  document.getElementById('root')
-)
+
+function render () {
+  ReactDOM.render(
+    <React.StrictMode>
+      <App store={store} />
+    </React.StrictMode>,
+    document.getElementById('root')
+  )
+}
+
+render() //2.初始化渲染
+
+store.subscribe(render) //3.订阅监听store的状态变了，就会自动调用进行重绘
